@@ -5,7 +5,7 @@ https://developer.jboss.org/message/917423
  2.  `export JBOSS_HOME=...`
  3.  `git clone https://github.com/ochaloup/byteman-xaresource-fail`
  4.  `export WORKSPACE=$PWD/byteman-xaresource-fail`
- 5.  `export JAVA_OPTS="-Dorg.jboss.byteman.debug=true -Dorg.jboss.byteman.verbose=true -Djboss.modules.system.pkgs=org.jboss.byteman -javaagent:/home/ochaloup/my-testing/byteman-xaresource-fail/lib/byteman-2.2.1.jar=script:$WORKSPACE/src/main/resources/byteman.btm"`
+ 5.  `export JAVA_OPTS="-Dorg.jboss.byteman.debug=true -Dorg.jboss.byteman.verbose=true -Djboss.modules.system.pkgs=org.jboss.byteman -javaagent:$WORKSPACE/lib/byteman-2.2.1.jar=script:$WORKSPACE/src/main/resources/byteman.btm"`
  6.  For PostgreSQL (by default H2 is used): `unzip -d $JBOSS_HOME $WORKSPACE/lib/postgres-module.zip`
  7.  `$JBOSS_HOME/bin/standalone.sh -c standalone-full.xml &`
  8.  For PostgreSQL (by default H2 is used): change connection properties to PostgreSQL database in $WORKSPACE/src/main/resources/jboss-config.cli
