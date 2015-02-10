@@ -3,5 +3,5 @@ INTERFACE javax.transaction.xa.XAResource
 METHOD commit
 AT ENTRY
 IF true
-DO traceln("Commiting at " + $0.getClassName()); Thread.dumpStack();
+DO traceln("Commiting at " + $0.getClass().getName()); Thread.dumpStack();
 ENDRULE
