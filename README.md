@@ -11,6 +11,7 @@ https://developer.jboss.org/message/917423
 8. change connection properties to PostgreSQL database in $WORKSPACE/src/main/resources/jboss-config.cli
 9. $JBOSS_HOME/bin/jboss-cli.sh -c --file=$WORKSPACE/src/main/resources/jboss-config.cli
 10. cp $WORKSPACE/lib/byteman-xaresource-fail.war $JBOSS_HOME/standalone/deployments/
+11. hit http://localhost:8080/byteman-xaresource-fail/
 
  NOTE: If you experience trouble with byteman exception then this leaves a not finished transactions in database
  Try to connect with `psql databasename` and `select *  from pg_prepared_xacts` and `rollback prepared '<gid>';`
