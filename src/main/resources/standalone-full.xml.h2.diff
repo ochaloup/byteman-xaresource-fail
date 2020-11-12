@@ -1,0 +1,31 @@
+157c157
+<                 <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true" use-ccm="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+---
+>                 <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+165,179d164
+<                 <xa-datasource jndi-name="java:jboss/datasources/TestDS" pool-name="TestDS" use-ccm="true">
+<                     <xa-datasource-property name="URL">
+<                         jdbc:h2:mem:test
+<                     </xa-datasource-property>
+<                     <driver>h2</driver>
+<                     <xa-pool>
+<                         <min-pool-size>10</min-pool-size>
+<                         <max-pool-size>20</max-pool-size>
+<                         <prefill>true</prefill>
+<                     </xa-pool>
+<                     <security>
+<                         <user-name>sa</user-name>
+<                         <password>sa</password>
+<                     </security>
+<                 </xa-datasource>
+423c408
+<             <cached-connection-manager debug="true" error="true"/>
+---
+>             <cached-connection-manager/>
+465d449
+<                 <jms-queue name="testQueue" entries="java:jboss/queue/testQueue"/>
+594c578
+< </server>
+---
+> </server>
+\ No newline at end of file
