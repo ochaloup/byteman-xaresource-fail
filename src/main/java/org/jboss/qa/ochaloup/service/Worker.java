@@ -10,9 +10,15 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
 import org.jboss.qa.ochaloup.model.TestEntity;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Stateless
 @LocalBean
@@ -24,15 +30,18 @@ public class Worker {
 
     @Resource(lookup="java:jboss/queue/testQueue")
     private Destination destination;
+
+    @Resource(lookup="java:jboss/datasources/TestDS") // defined in persistence.xml as well
+    private DataSource dataSource;
     
     @PersistenceContext
     EntityManager em;
     
     private static final String message = "Hello world!";
-    
+
     
     public void doWork() {
-        saveToDB(message);
+        saveToDBDatasource(message);
         sendMessage(message);
     }
     
@@ -58,6 +67,24 @@ public class Worker {
     }
     
     private void saveToDB(String message) {
+        TestEntity entity = new TestEntity();
+        entity.setMessage(message);
+        em.persist(entity);
+        log.infof("Message %s persisted by default entity manager %s", message, em);
+    }
+
+    private void saveToDBDatasource(String message) {
+        java.sql.Connection conn;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO testentity (id,message) VALUES (?,?)");
+            stm.setLong(1, ThreadLocalRandom.current().nextLong());
+            stm.setString(2, message);
+        } catch (SQLException sqle) {
+            throw new IllegalStateException("Cannot get connection from datasource " + dataSource, sqle);
+        } finally {
+            // if (conn != null) conn.close();
+        }
         TestEntity entity = new TestEntity();
         entity.setMessage(message);
         em.persist(entity);
