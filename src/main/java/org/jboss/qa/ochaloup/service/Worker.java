@@ -3,6 +3,8 @@ package org.jboss.qa.ochaloup.service;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -24,11 +26,11 @@ import java.util.concurrent.ThreadLocalRandom;
 @LocalBean
 public class Worker {
     private static final Logger log = Logger.getLogger(Worker.class);
-    
-    @Resource(lookup = "java:/JmsXA")
+
+    // @Resource(lookup = "java:/JmsXA")
     private ConnectionFactory connectionFactory;    
 
-    @Resource(lookup="java:jboss/queue/testQueue")
+    // @Resource(lookup="java:jboss/queue/testQueue")
     private Destination destination;
 
     @Resource(lookup="java:jboss/datasources/TestDS") // defined in persistence.xml as well
@@ -39,12 +41,12 @@ public class Worker {
     
     private static final String message = "Hello world!";
 
-    
+    // @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED) - failure as DB insert can't work without a transaction
     public void doWork() {
         saveToDBDatasource(message);
-        sendMessage(message);
+        // sendMessage(message);
     }
-    
+
     private void sendMessage(String message) {
         Connection connection = null;
         try {
